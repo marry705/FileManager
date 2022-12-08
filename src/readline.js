@@ -1,6 +1,7 @@
 import { createInterface } from 'readline';
 import process, { stdin, stdout, exit } from 'process';
 import { getUserName, getUserHomeDir, COMMANDS } from './helpers/index.js';
+import { ls, os } from './commands/index.js'
 
 let currentPath = getUserHomeDir();
 
@@ -19,7 +20,9 @@ process.on('exit', () => {
 
 export const readline = async(question) =>
     rl.question(question, async (answer) => {
-        const command = answer.trim();
+        const [command, argument] = answer.trim().includes('--')
+            ? answer.split('--').map((item) => item.trim())
+            : answer.split(' ').map((item) => item.trim());
 
         try {
             switch (command) {
@@ -35,16 +38,19 @@ export const readline = async(question) =>
                     break;
                 }
                 case COMMANDS.ls: {
-                    console.log('LS');
-                    throw new Error('No username name');
+                    await ls(currentPath);
+                    break;
+                }
+                case COMMANDS.os: {
+                    os(argument);
                     break;
                 }
                 default:
                     rl.write('Invalid input.\n');
                     break;
             }
-        } catch {
-            rl.write('Operation failed.\n');
+        } catch(error) {
+            rl.write(`${error}\n`);
         }
 
         rl.write(`You are currently in ${currentPath}.\n`);

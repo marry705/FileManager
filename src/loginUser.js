@@ -6,7 +6,7 @@ export const loginUser = async () => {
     const userName = getUserName();
 
     if (!userName) {
-        console.error('Operation failed.');
+        console.error('Operation failed.\n');
     }
 
     console.log(`Welcome to the File Manager, ${userName}!\n`)
