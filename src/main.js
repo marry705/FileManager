@@ -1,1 +1,3 @@
-console.log('hello')
+import { loginUser } from './loginUser.js';
+
+await loginUser();
