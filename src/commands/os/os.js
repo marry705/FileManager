@@ -1,10 +1,14 @@
 import { EOL, cpus, homedir, userInfo, arch } from 'os';
-import { OS_COMMANDS } from '../helpers/index.js'
+import { OS_COMMANDS } from '../../helpers/index.js'
 
 export const os = (command) => {
-    switch (command) {
+    if (!command.startsWith('--')) {
+        throw new Error('Operation failed.');
+    }
+
+    switch (command.replace('--', '')) {
         case OS_COMMANDS.EOL: {
-            console.log('EOL', EOL);
+            console.log(JSON.stringify(EOL));
             break;
         }
         case OS_COMMANDS.cpus: {

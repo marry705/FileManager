@@ -4,6 +4,7 @@ export const COMMANDS = {
     cd: 'cd',
     ls: 'ls',
     os: 'os',
+    add: 'add',
 };
 
 export const FILE_TYPES = {

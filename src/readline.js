@@ -1,7 +1,7 @@
-import { createInterface } from 'readline';
-import process, { stdin, stdout, exit } from 'process';
-import { getUserName, getUserHomeDir, COMMANDS } from './helpers/index.js';
-import { ls, os } from './commands/index.js'
+import { createInterface } from 'readline/promises';
+import { stdin, stdout, exit } from 'process';
+import { getUserHomeDir, getAbsoluteDir, COMMANDS } from './helpers/index.js';
+import { ls, up, os, cd } from './commands/index.js'
 
 let currentPath = getUserHomeDir();
 
@@ -14,46 +14,42 @@ rl.on('SIGINT', () => {
     exit(0);
 });
 
-process.on('exit', () => {
-    console.log(`Thank you for using File Manager, ${getUserName()}, goodbye!`);
-});
+export const readline = async (question) => {
+    const answer = await rl.question(question);
+    const [command, argument] = answer.trim().replace(/ {2,}/g, ' ').split(' ');
 
-export const readline = async(question) =>
-    rl.question(question, async (answer) => {
-        const [command, argument] = answer.trim().includes('--')
-            ? answer.split('--').map((item) => item.trim())
-            : answer.split(' ').map((item) => item.trim());
-
-        try {
-            switch (command) {
-                case COMMANDS.exit: {
-                    exit(0);
-                }
-                case COMMANDS.up: {
-                    console.log('UP');
-                    break;
-                }
-                case COMMANDS.cd: {
-                    console.log('CD');
-                    break;
-                }
-                case COMMANDS.ls: {
-                    await ls(currentPath);
-                    break;
-                }
-                case COMMANDS.os: {
-                    os(argument);
-                    break;
-                }
-                default:
-                    rl.write('Invalid input.\n');
-                    break;
+    try {
+        switch (command) {
+            case COMMANDS.exit: {
+                exit(0);
             }
-        } catch(error) {
-            rl.write(`${error}\n`);
+            case COMMANDS.up: {
+                currentPath = up(currentPath);
+                break;
+            }
+            case COMMANDS.cd: {
+                const newPath = getAbsoluteDir(currentPath, argument.trim());
+                currentPath = await cd(newPath);
+                break;
+            }
+            case COMMANDS.ls: {
+                await ls(currentPath);
+                break;
+            }
+            case COMMANDS.os: {
+                os(argument.trim());
+                break;
+            }
+            default:
+                rl.write('Invalid input.\n');
+                break;
         }
+    } catch(error) {
+        rl.write(`${error}\n`);
+    }
 
-        rl.write(`You are currently in ${currentPath}.\n`);
+    rl.write(`You are currently in ${currentPath}\n`);
 
-        readline(question);
-    });
+    readline(question);
+};
+

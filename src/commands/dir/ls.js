@@ -1,5 +1,5 @@
 import { readdir } from 'fs/promises';
-import { FILE_TYPES } from '../helpers/index.js';
+import { FILE_TYPES } from '../../helpers/index.js';
 
 export const ls = async (currentPath) => {
   try {
