@@ -12,4 +12,4 @@ export const cd = async (path) => {
   } catch {
     throw new Error('Operation failed.');
   }
-}
+};

@@ -1,7 +1,7 @@
 import { createInterface } from 'readline/promises';
 import { stdin, stdout, exit } from 'process';
 import { getUserHomeDir, getAbsoluteDir, COMMANDS } from './helpers/index.js';
-import { ls, up, os, cd } from './commands/index.js'
+import { os, ls, up, cd, add, cat, rm, rn } from './commands/index.js'
 
 let currentPath = getUserHomeDir();
 
@@ -16,7 +16,7 @@ rl.on('SIGINT', () => {
 
 export const readline = async (question) => {
     const answer = await rl.question(question);
-    const [command, argument] = answer.trim().replace(/ {2,}/g, ' ').split(' ');
+    const [command, argument, sec_argument] = answer.trim().replace(/ {2,}/g, ' ').split(' ');
 
     try {
         switch (command) {
@@ -34,6 +34,25 @@ export const readline = async (question) => {
             }
             case COMMANDS.ls: {
                 await ls(currentPath);
+                break;
+            }
+            case COMMANDS.add: {
+                await add(argument.trim(), currentPath);
+                break;
+            }
+            case COMMANDS.cat: {
+                const pathToFile = getAbsoluteDir(currentPath, argument.trim());
+                await cat(pathToFile);
+                break;
+            }
+            case COMMANDS.rm: {
+                const pathToFile = getAbsoluteDir(currentPath, argument.trim());
+                await rm(pathToFile);
+                break;
+            }
+            case COMMANDS.rn: {
+                const pathToFile = getAbsoluteDir(currentPath, argument.trim());
+                await rn(pathToFile, sec_argument);
                 break;
             }
             case COMMANDS.os: {
