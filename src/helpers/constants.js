@@ -5,9 +5,12 @@ export const COMMANDS = {
     ls: 'ls',
     os: 'os',
     add: 'add',
+    cat: 'cat',
+    cp: 'cp',
+    mv: 'mv',
     rm: 'rm',
     rn: 'rn',
-    cat: 'cat',
+    hash: 'hash',
 };
 
 export const FILE_TYPES = {

@@ -1,7 +1,7 @@
 import { createInterface } from 'readline/promises';
 import { stdin, stdout, exit } from 'process';
-import { getUserHomeDir, getAbsoluteDir, COMMANDS } from './helpers/index.js';
-import { os, ls, up, cd, add, cat, rm, rn } from './commands/index.js'
+import { getUserHomeDir, getAbsoluteDir, COMMANDS } from '../helpers/index.js';
+import { os, ls, up, cd, add, cat, cp, mv, rm, rn, hash } from '../commands/index.js'
 
 let currentPath = getUserHomeDir();
 
@@ -45,6 +45,18 @@ export const readline = async (question) => {
                 await cat(pathToFile);
                 break;
             }
+            case COMMANDS.cp: {
+                const pathToFile = getAbsoluteDir(currentPath, argument.trim());
+                const pathToNewDir = getAbsoluteDir(currentPath, sec_argument.trim());
+                await cp(pathToFile, pathToNewDir);
+                break;
+            }
+            case COMMANDS.mv: {
+                const pathToFile = getAbsoluteDir(currentPath, argument.trim());
+                const pathToNewDir = getAbsoluteDir(currentPath, sec_argument.trim());
+                await mv(pathToFile, pathToNewDir);
+                break; 
+            }
             case COMMANDS.rm: {
                 const pathToFile = getAbsoluteDir(currentPath, argument.trim());
                 await rm(pathToFile);
@@ -53,6 +65,11 @@ export const readline = async (question) => {
             case COMMANDS.rn: {
                 const pathToFile = getAbsoluteDir(currentPath, argument.trim());
                 await rn(pathToFile, sec_argument);
+                break;
+            }
+            case COMMANDS.hash: {
+                const pathToFile = getAbsoluteDir(currentPath, argument.trim());
+                await hash(pathToFile);
                 break;
             }
             case COMMANDS.os: {

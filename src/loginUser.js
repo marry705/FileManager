@@ -1,5 +1,5 @@
 
-import { readline } from './readline.js';
+import { readline } from './readline/index.js';
 import { getUserName } from './helpers/index.js';
 import process, { exit } from 'process';
 
