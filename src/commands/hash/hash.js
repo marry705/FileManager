@@ -10,8 +10,7 @@ export const hash = async (pathToFile) => {
         await pipeline(readStream, hash);
 
         console.log(hash.digest('hex'));
-    } catch(error) {
-        console.log(error);
+    } catch {
         throw new Error('Operation failed.');
     }
 };

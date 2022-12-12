@@ -5,7 +5,7 @@ export const cd = async (path) => {
     const stats = await stat(path);
 
     if (!stats.isDirectory()) {
-      throw new Error('Operation failed.');
+      throw new Error('Not correct path.');
     } 
         
     return path;

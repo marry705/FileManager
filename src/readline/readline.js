@@ -1,7 +1,7 @@
 import { createInterface } from 'readline/promises';
 import { stdin, stdout, exit } from 'process';
 import { getUserHomeDir, getAbsoluteDir, COMMANDS } from '../helpers/index.js';
-import { os, ls, up, cd, add, cat, cp, mv, rm, rn, hash } from '../commands/index.js'
+import { cd, ls, up, add, cat, cp, mv, rm, rn, os, hash, compress, decompress } from '../commands/index.js'
 
 let currentPath = getUserHomeDir();
 
@@ -23,10 +23,6 @@ export const readline = async (question) => {
             case COMMANDS.exit: {
                 exit(0);
             }
-            case COMMANDS.up: {
-                currentPath = up(currentPath);
-                break;
-            }
             case COMMANDS.cd: {
                 const newPath = getAbsoluteDir(currentPath, argument.trim());
                 currentPath = await cd(newPath);
@@ -34,6 +30,10 @@ export const readline = async (question) => {
             }
             case COMMANDS.ls: {
                 await ls(currentPath);
+                break;
+            }
+            case COMMANDS.up: {
+                currentPath = up(currentPath);
                 break;
             }
             case COMMANDS.add: {
@@ -74,6 +74,18 @@ export const readline = async (question) => {
             }
             case COMMANDS.os: {
                 os(argument.trim());
+                break;
+            }
+            case COMMANDS.compress: {
+                const pathToFile = getAbsoluteDir(currentPath, argument.trim());
+                const pathToDir = getAbsoluteDir(currentPath, sec_argument.trim());
+                await compress(pathToFile, pathToDir);
+                break;
+            }
+            case COMMANDS.decompress: {
+                const pathToFile = getAbsoluteDir(currentPath, argument.trim());
+                const pathToDir = getAbsoluteDir(currentPath, sec_argument.trim());
+                await decompress(pathToFile, pathToDir);
                 break;
             }
             default:

@@ -1,16 +1,18 @@
 export const COMMANDS = {
     exit: '.exit',
-    up: 'up',
     cd: 'cd',
     ls: 'ls',
-    os: 'os',
+    up: 'up',
     add: 'add',
     cat: 'cat',
     cp: 'cp',
     mv: 'mv',
     rm: 'rm',
     rn: 'rn',
+    os: 'os',
     hash: 'hash',
+    compress: 'compress',
+    decompress: 'decompress',
 };
 
 export const FILE_TYPES = {
