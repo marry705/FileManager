@@ -16,15 +16,18 @@ rl.on('SIGINT', () => {
 
 export const readline = async (question) => {
     const answer = await rl.question(question);
-    const [command, argument, sec_argument] = answer.trim().replace(/ {2,}/g, ' ').split(' ');
 
-    try {
+    const [command, argument, sec_argument] = answer.includes(`"`) 
+        ? receivedData.split(`"`).map((item) => item.trim())
+        : receivedData.replace(/\s+/g, ' ').split( ).map((item) => item.trim());
+
+    try {   
         switch (command) {
             case COMMANDS.exit: {
                 exit(0);
             }
             case COMMANDS.cd: {
-                const newPath = getAbsoluteDir(currentPath, argument.trim());
+                const newPath = getAbsoluteDir(currentPath, argument);
                 currentPath = await cd(newPath);
                 break;
             }
@@ -37,54 +40,54 @@ export const readline = async (question) => {
                 break;
             }
             case COMMANDS.add: {
-                await add(argument.trim(), currentPath);
+                await add(argument, currentPath);
                 break;
             }
             case COMMANDS.cat: {
-                const pathToFile = getAbsoluteDir(currentPath, argument.trim());
+                const pathToFile = getAbsoluteDir(currentPath, argument);
                 await cat(pathToFile);
                 break;
             }
             case COMMANDS.cp: {
-                const pathToFile = getAbsoluteDir(currentPath, argument.trim());
-                const pathToNewDir = getAbsoluteDir(currentPath, sec_argument.trim());
+                const pathToFile = getAbsoluteDir(currentPath, argument);
+                const pathToNewDir = getAbsoluteDir(currentPath, sec_argument);
                 await cp(pathToFile, pathToNewDir);
                 break;
             }
             case COMMANDS.mv: {
-                const pathToFile = getAbsoluteDir(currentPath, argument.trim());
-                const pathToNewDir = getAbsoluteDir(currentPath, sec_argument.trim());
+                const pathToFile = getAbsoluteDir(currentPath, argument);
+                const pathToNewDir = getAbsoluteDir(currentPath, sec_argument);
                 await mv(pathToFile, pathToNewDir);
                 break; 
             }
             case COMMANDS.rm: {
-                const pathToFile = getAbsoluteDir(currentPath, argument.trim());
+                const pathToFile = getAbsoluteDir(currentPath, argument);
                 await rm(pathToFile);
                 break;
             }
             case COMMANDS.rn: {
-                const pathToFile = getAbsoluteDir(currentPath, argument.trim());
+                const pathToFile = getAbsoluteDir(currentPath, argument);
                 await rn(pathToFile, sec_argument);
                 break;
             }
             case COMMANDS.hash: {
-                const pathToFile = getAbsoluteDir(currentPath, argument.trim());
+                const pathToFile = getAbsoluteDir(currentPath, argument);
                 await hash(pathToFile);
                 break;
             }
             case COMMANDS.os: {
-                os(argument.trim());
+                os(argument);
                 break;
             }
             case COMMANDS.compress: {
-                const pathToFile = getAbsoluteDir(currentPath, argument.trim());
-                const pathToDir = getAbsoluteDir(currentPath, sec_argument.trim());
+                const pathToFile = getAbsoluteDir(currentPath, argument);
+                const pathToDir = getAbsoluteDir(currentPath, sec_argument);
                 await compress(pathToFile, pathToDir);
                 break;
             }
             case COMMANDS.decompress: {
-                const pathToFile = getAbsoluteDir(currentPath, argument.trim());
-                const pathToDir = getAbsoluteDir(currentPath, sec_argument.trim());
+                const pathToFile = getAbsoluteDir(currentPath, argument);
+                const pathToDir = getAbsoluteDir(currentPath, sec_argument);
                 await decompress(pathToFile, pathToDir);
                 break;
             }
