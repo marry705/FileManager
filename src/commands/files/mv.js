@@ -2,6 +2,7 @@ import { createReadStream, createWriteStream } from 'fs';
 import { rm } from 'fs/promises';
 import { pipeline } from 'stream/promises';
 import { sep, basename } from 'path';
+import { MAIN_ERROR } from '../../helpers/index.js';
 
 export const mv = async (pathToFile, pathToNewDir) => {
     try {
@@ -15,6 +16,6 @@ export const mv = async (pathToFile, pathToNewDir) => {
         await rm(pathToFile);
     } catch(error) {
         console.log(error);
-        throw new Error('Operation failed.');
+        throw new Error(MAIN_ERROR);
     }
 };

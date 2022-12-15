@@ -18,8 +18,14 @@ export const readline = async (question) => {
     const answer = await rl.question(question);
 
     const [command, argument, sec_argument] = answer.includes(`"`) 
-        ? receivedData.split(`"`).map((item) => item.trim())
-        : receivedData.replace(/\s+/g, ' ').split( ).map((item) => item.trim());
+        ? answer
+            .split(`"`)
+            .map((item) => item.trim())
+            .filter((item) => item.length)
+        : answer
+            .replace(/\s+/g, ' ')
+            .split(' ')
+            .map((item) => item.trim());
 
     try {   
         switch (command) {

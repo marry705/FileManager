@@ -1,6 +1,7 @@
 import { createReadStream } from 'fs';
 import { stdout } from 'process';
 import { finished } from 'stream/promises';
+import { MAIN_ERROR } from '../../helpers/index.js';
 
 export const cat = async (pathToFile) => {
     try {
@@ -9,6 +10,6 @@ export const cat = async (pathToFile) => {
         readStream.pipe(stdout);
         await finished(readStream);
     } catch {
-        throw new Error('Operation failed.');
+        throw new Error(MAIN_ERROR);
     }
 };

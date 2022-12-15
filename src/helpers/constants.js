@@ -20,6 +20,8 @@ export const FILE_TYPES = {
     file: 'file',
 };
 
+export const ZIP_TYPE = 'br';
+
 export const OS_COMMANDS = {
     EOL: 'EOL',
     cpus: 'cpus',
@@ -27,3 +29,5 @@ export const OS_COMMANDS = {
     username: 'username',
     architecture: 'architecture'
 };
+
+export const MAIN_ERROR = 'Operation failed.';

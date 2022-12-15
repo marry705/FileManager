@@ -1,5 +1,5 @@
 import { readdir } from 'fs/promises';
-import { FILE_TYPES } from '../../helpers/index.js';
+import { FILE_TYPES, MAIN_ERROR } from '../../helpers/index.js';
 
 export const ls = async (currentPath) => {
   try {
@@ -10,15 +10,15 @@ export const ls = async (currentPath) => {
           type: file.isDirectory() ? FILE_TYPES.directory : FILE_TYPES.file
         }))
         .sort(({ name1, type1 }, { name2, type2 }) => {
-            if (type1 === type2){
-            return name1 < name2 ? -1 : 1;
+            if (type1 === type2) {
+              return name1 < name2 ? -1 : 1;
           } else {
-            return type1 < type2 ? -1 : 1;
+              return type1 < type2 ? -1 : 1;
           }
         });
     
     console.table(table);
   } catch {
-    throw new Error('Operation failed.');
+    throw new Error(MAIN_ERROR);
   }
 };

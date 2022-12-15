@@ -1,5 +1,7 @@
 import { createReadStream } from 'fs';
 import { pipeline } from 'stream/promises';
+import { MAIN_ERROR } from '../../helpers/index.js';
+
 const { createHash } = await import('crypto');
 
 export const hash = async (pathToFile) => {
@@ -11,6 +13,6 @@ export const hash = async (pathToFile) => {
 
         console.log(hash.digest('hex'));
     } catch {
-        throw new Error('Operation failed.');
+        throw new Error(MAIN_ERROR);
     }
 };

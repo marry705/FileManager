@@ -1,4 +1,5 @@
 import { stat } from 'fs/promises';
+import { MAIN_ERROR } from '../../helpers/index.js';
 
 export const cd = async (path) => {
   try {
@@ -10,6 +11,6 @@ export const cd = async (path) => {
         
     return path;
   } catch {
-    throw new Error('Operation failed.');
+    throw new Error(MAIN_ERROR);
   }
 };

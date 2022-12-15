@@ -1,6 +1,6 @@
 
 import { readline } from './readline/index.js';
-import { getUserName } from './helpers/index.js';
+import { getUserName, MAIN_ERROR } from './helpers/index.js';
 import process, { exit } from 'process';
 
 process.on('exit', () => {
@@ -17,7 +17,7 @@ export const main = () => {
         console.log(`Welcome to the File Manager, ${userName}!\n`)
         readline('Enter your command.\n');
     } else {
-        console.error('Operation failed.');
+        console.error(MAIN_ERROR);
         exit(0);
     }
 };
