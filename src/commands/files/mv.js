@@ -14,8 +14,7 @@ export const mv = async (pathToFile, pathToNewDir) => {
         );
 
         await rm(pathToFile);
-    } catch(error) {
-        console.log(error);
+    } catch {
         throw new Error(MAIN_ERROR);
     }
 };
