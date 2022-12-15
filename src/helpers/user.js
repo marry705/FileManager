@@ -1,8 +1,11 @@
 import{ argv } from 'process';
 
 export const getUserName = () => {
-    const userNameArg = argv.find((arg) => arg.startsWith('--username'));
-    const userNameSymbolPos = userNameArg.indexOf('=');
-    
-    return userNameSymbolPos !== -1 ? userNameArg.slice(userNameSymbolPos + 1) : '';
+    const userNameArg = argv.find((arg) => arg.startsWith('--username='));
+  
+    if (userNameArg) {
+        return userNameArg.slice(userNameArg.indexOf('=') + 1);
+    }
+
+    return '';
 };

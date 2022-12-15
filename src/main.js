@@ -13,7 +13,7 @@ process.on('exit', () => {
 export const main = () => {
     const userName = getUserName();
 
-    if (userName) {
+    if (userName.length) {
         console.log(`Welcome to the File Manager, ${userName}!\n`)
         readline('Enter your command.\n');
     } else {
