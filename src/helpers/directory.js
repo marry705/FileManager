@@ -1,6 +1,12 @@
-import { homedir } from 'os';
 import { isAbsolute, join } from 'path';
+import { cwd } from 'process';
 
-export const getUserHomeDir = () => homedir();
+export const getAbsoluteDir = (path) => {
+    if (!path) {
+        return '';
+    }
 
-export const getAbsoluteDir = (currentPath, path) => isAbsolute(path) ? path : join(currentPath, path);
+    const updatePath = path.replaceAll(`"`, '');
+
+    return isAbsolute(updatePath) ? updatePath : join(cwd(), updatePath);
+};

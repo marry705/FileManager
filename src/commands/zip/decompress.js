@@ -1,5 +1,6 @@
 import { createReadStream, createWriteStream } from 'fs';
 import { pipeline } from 'stream/promises';
+import { stat } from 'fs/promises';
 import { createBrotliDecompress } from 'zlib';
 import { basename, sep } from 'path';
 import { MAIN_ERROR, ZIP_TYPE } from '../../helpers/index.js'
@@ -7,8 +8,14 @@ import { MAIN_ERROR, ZIP_TYPE } from '../../helpers/index.js'
 export const decompress = async (pathToFile, pathToDir) => {
   try {
     if (!pathToFile.endsWith(`${ZIP_TYPE}`)) {
-        throw new Error('There is no br files.');
+      throw new Error('There is no br file.');
     }
+
+    const stats = await stat(pathToFile);
+
+    if (!stats.isFile()) {
+      throw new Error('There is no such file.');
+    } 
 
     const decompressedFilePath = `${pathToDir}${sep}${basename(pathToFile).replace(`.${ZIP_TYPE}`, '')}`;
     

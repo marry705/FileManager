@@ -1,4 +1,4 @@
-import { EOL, cpus, homedir, userInfo, arch } from 'os';
+import { EOL, cpus, userInfo, arch } from 'os';
 import { OS_COMMANDS } from '../../helpers/index.js';
 
 const getCpus = () => (
@@ -11,10 +11,14 @@ const getCpus = () => (
     ]
 );
 
-export const actionsByCommand = {
-    [OS_COMMANDS.EOL]: JSON.stringify(EOL),
-    [OS_COMMANDS.cpus]: getCpus(),
-    [OS_COMMANDS.homedir]: homedir(),
-    [OS_COMMANDS.username]: userInfo().username,
-    [OS_COMMANDS.architecture]: arch(),
+export const getDateByCommand = () => {
+    const { homedir, username } = userInfo();
+
+    return {
+        [OS_COMMANDS.EOL]: JSON.stringify(EOL),
+        [OS_COMMANDS.cpus]: getCpus(),
+        [OS_COMMANDS.homedir]: homedir,
+        [OS_COMMANDS.username]: username,
+        [OS_COMMANDS.architecture]: arch(),
+    };
 };

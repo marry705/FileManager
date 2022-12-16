@@ -31,3 +31,4 @@ export const OS_COMMANDS = {
 };
 
 export const MAIN_ERROR = 'Operation failed.';
+export const INPUT_ERROR = 'Invalid input';
