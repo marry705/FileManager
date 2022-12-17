@@ -1,10 +1,16 @@
-import { MAIN_ERROR } from '../../helpers/index.js';
+import { getAbsoluteDir, getError, INPUT_ERROR } from '../../helpers/index.js';
 import { chdir } from 'process';
 
 export const cd = async (path) => {
-  try {      
-    chdir(path);
-  } catch {
-    throw new Error(MAIN_ERROR);
+  try {
+    const newPath = getAbsoluteDir(path);
+
+    if (!newPath.length) {
+      throw new Error(INPUT_ERROR);
+    };
+
+    chdir(newPath);
+  } catch(error) {
+    getError(error);
   }
 };

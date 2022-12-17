@@ -1,12 +1,16 @@
 import { writeFile } from 'fs/promises';
 import { sep } from 'path';
-import { MAIN_ERROR } from '../../helpers/index.js';
+import { INPUT_ERROR, getError } from '../../helpers/index.js';
 import { cwd } from 'process';
 
 export const add = async (fileName) => {
   try {
+    if (!fileName.length) {
+      throw new Error(INPUT_ERROR);
+    };
+
     await writeFile(`${cwd()}${sep}${fileName}`, '');
-  } catch {
-    throw new Error(MAIN_ERROR);
+  } catch(error) {
+    getError(error);
   }
 };

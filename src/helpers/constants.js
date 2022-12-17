@@ -29,6 +29,3 @@ export const OS_COMMANDS = {
     username: 'username',
     architecture: 'architecture'
 };
-
-export const MAIN_ERROR = 'Operation failed.';
-export const INPUT_ERROR = 'Invalid input';

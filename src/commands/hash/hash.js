@@ -1,18 +1,24 @@
 import { createReadStream } from 'fs';
 import { pipeline } from 'stream/promises';
-import { MAIN_ERROR } from '../../helpers/index.js';
+import { getAbsoluteDir, getError, INPUT_ERROR } from '../../helpers/index.js';
 
 const { createHash } = await import('crypto');
 
-export const hash = async (pathToFile) => {
+export const hash = async (path) => {
     try {
+        const pathToFile = getAbsoluteDir(path);
+
+        if (!pathToFile.length) {
+            throw new Error(INPUT_ERROR);
+        };
+
         const hash = createHash('sha256');
         const readStream = createReadStream(pathToFile);
 
         await pipeline(readStream, hash);
 
         console.log(hash.digest('hex'));
-    } catch {
-        throw new Error(MAIN_ERROR);
+    } catch(error) {
+        getError(error);
     }
 };

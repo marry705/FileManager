@@ -2,10 +2,17 @@ import { createReadStream, createWriteStream } from 'fs';
 import { rm } from 'fs/promises';
 import { pipeline } from 'stream/promises';
 import { sep, basename } from 'path';
-import { MAIN_ERROR } from '../../helpers/index.js';
+import { getAbsoluteDir, getError, INPUT_ERROR } from '../../helpers/index.js';
 
-export const mv = async (pathToFile, pathToNewDir) => {
+export const mv = async (path, pathToDir) => {
     try {
+        const pathToFile = getAbsoluteDir(path);
+        const pathToNewDir = getAbsoluteDir(pathToDir);
+
+        if (!pathToFile.length || !pathToNewDir.length) {
+            throw new Error(INPUT_ERROR);
+        };
+
         const fileCopyPath = `${pathToNewDir}${sep}${basename(pathToFile)}`;
 
         await pipeline(
@@ -14,7 +21,7 @@ export const mv = async (pathToFile, pathToNewDir) => {
         );
 
         await rm(pathToFile);
-    } catch {
-        throw new Error(MAIN_ERROR);
+    } catch(error) {
+        getError(error);
     }
 };

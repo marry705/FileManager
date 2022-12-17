@@ -11,7 +11,7 @@ const getCpus = () => (
     ]
 );
 
-export const getDateByCommand = () => {
+export const getDataByCommand = () => {
     const { homedir, username } = userInfo();
 
     return {
