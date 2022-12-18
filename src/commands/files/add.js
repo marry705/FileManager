@@ -9,7 +9,9 @@ export const add = async (fileName) => {
       throw new Error(INPUT_ERROR);
     };
 
-    await writeFile(`${cwd()}${sep}${fileName}`, '');
+    const newFileName = fileName.replaceAll(`"`, '');
+
+    await writeFile(`${cwd()}${sep}${newFileName}`, '');
   } catch(error) {
     getError(error);
   }
