@@ -1,5 +1,5 @@
 import { createReadStream, createWriteStream } from 'fs';
-import { stat } from 'fs/promises';
+import { constants, access } from 'fs/promises';
 import { pipeline } from 'stream/promises';
 import { createBrotliCompress } from 'zlib';
 import { sep, basename } from 'path';
@@ -14,11 +14,7 @@ export const compress = async (path, dir) => {
             throw new Error(INPUT_ERROR);
         };
 
-        const stats = await stat(pathToFile);
-
-        if (!stats.isFile()) {
-            throw new Error('There is no such file.');
-        };
+        await access(pathToFile, constants.F_OK | constants.R_OK);
 
         const compressedFilePath = `${pathToDir}${sep}${basename(pathToFile)}.${ZIP_TYPE}`;
 
